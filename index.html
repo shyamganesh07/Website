@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreWorld - Travel Redefined</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            background: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        header .container {
+            animation: slide-down 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            animation: fade-in 2s ease-in-out;
+        }
+
+        header p {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            animation: fade-in 2.5s ease-in-out;
+        }
+
+        /* Hero Section */
+        #hero {
+            background: white;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            animation: zoom-in 1.5s ease-out;
+        }
+
+        #hero h2 {
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            color: #2575fc;
+        }
+
+        #hero p {
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        /* Form Styling */
+        form {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            animation: fade-in 2s ease-in-out;
+        }
+
+        input, button {
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input:focus {
+            border-color: #2575fc;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.3);
+        }
+
+        button {
+            background: #2575fc;
+            color: white;
+            cursor: pointer;
+            transform: scale(1);
+            animation: pulse 2s infinite;
+        }
+
+        button:hover {
+            background: #6a11cb;
+            transform: scale(1.1);
+        }
+
+        /* Results Section */
+        #results {
+            background: white;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: slide-up 1s ease-in-out;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #2575fc;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slide-down {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slide-up {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoom-in {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ExploreWorld</h1>
+            <p>Where every journey begins with a click</p>
+        </div>
+    </header>
+    <main>
+        <section id="hero">
+            <h2>Find Your Perfect Stay</h2>
+            <p>Search and book hotels at your favorite destinations</p>
+            <form id="searchForm">
+                <label for="destination">Destination</label>
+                <input type="text" id="destination" placeholder="Enter a city..." required>
+                <label for="checkin">Check-in</label>
+                <input type="date" id="checkin" required>
+                <label for="checkout">Check-out</label>
+                <input type="date" id="checkout" required>
+                <button type="submit">Search</button>
+            </form>
+        </section>
+        <section id="results" style="display: none;">
+            <h2>Available Hotels</h2>
+            <ul id="hotelList"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 ExploreWorld. Crafted with ❤️ for adventurers.</p>
+    </footer>
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const destination = document.getElementById("destination").value.trim();
+            const checkin = document.getElementById("checkin").value;
+            const checkout = document.getElementById("checkout").value;
+
+            if (!destination || !checkin || !checkout) {
+                alert("Please fill in all the fields!");
+                return;
+            }
+
+            const response = await fetch("http://localhost:3000/searchHotels", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ location: destination })
+            });
+
+            const hotels = await response.json();
+            const hotelList = document.getElementById("hotelList");
+            hotelList.innerHTML = "";
+
+            if (hotels.length > 0) {
+                hotels.forEach(hotel => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        <span><strong>${hotel.name}</strong> - ₹${hotel.price_per_night}/night</span>
+                        <button onclick="bookHotel(${hotel.id})">Book Now</button>
+                    `;
+                    hotelList.appendChild(li);
+                });
+                document.getElementById("results").style.display = "block";
+            } else {
+                alert("No hotels found for the selected destination.");
+            }
+        });
+
+        function bookHotel(hotelId) {
+            alert(`Booking hotel with ID ${hotelId}!`);
+        }
+    </script>
+</body>
+</html>
